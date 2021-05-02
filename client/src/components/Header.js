@@ -2,7 +2,7 @@ import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
 const Header = () => {
 	return (
-		<div>
+		<div className="mb-4">
 			<Navbar bg="light" expand="lg">
 				<div className="container">
 					<Navbar.Brand href="/">Travelly</Navbar.Brand>
