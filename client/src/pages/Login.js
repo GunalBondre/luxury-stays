@@ -1,18 +1,30 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import registerImg from "../images/hotel-signin-image.jpg";
 import { Form, FormWrapper } from "../components/commonStyles/FormWrapper";
 import { Button } from "../components/commonStyles/Button";
 import { Link } from "react-router-dom";
+import { login } from "../features/auth/authSlice";
+
 const Login = () => {
 	const [state, setState] = useState({
-		name: "",
 		email: "",
 		password: "",
 	});
-
-	const handleForm = (e) => {};
+	const dispatch = useDispatch();
+	const handleForm = (e) => {
+		e.preventDefault();
+		dispatch(
+			login({
+				email: state.email,
+				password: state.password,
+			})
+		);
+	};
 	const handleInput = (e) => {
 		setState({
+			...state,
 			[e.target.name]: e.target.value,
 		});
 	};
@@ -35,6 +47,7 @@ const Login = () => {
 											id="email"
 											onChange={handleInput}
 											className="form-control"
+											value={state.email}
 										/>
 									</div>
 									<div className="form-group">
@@ -46,9 +59,10 @@ const Login = () => {
 											id="password"
 											onChange={handleInput}
 											className="form-control"
+											value={state.password}
 										/>
 									</div>
-									<Button>Sign Up</Button>
+									<Button>Sign In</Button>
 									<div className="form-links my-4">
 										<a href="">Forgot Password?</a>
 									</div>

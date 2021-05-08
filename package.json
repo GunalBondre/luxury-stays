@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/GunalBondre/luxury-stays#readme",
   "devDependencies": {
+    "antd": "^4.15.4",
     "bcryptjs": "^2.4.3",
     "concurrently": "^6.0.2",
     "cors": "^2.8.5",
@@ -32,10 +33,23 @@
     "styled-components": "^5.2.3"
   },
   "dependencies": {
+    "@stripe/react-stripe-js": "^1.4.0",
+    "@stripe/stripe-js": "^1.14.0",
+    "axios": "^0.21.1",
     "boostrap": "^2.0.0",
     "bootstrap": "^4.6.0",
     "express": "^4.17.1",
+    "express-formidable": "^1.2.0",
+    "http-proxy-middleware": "^1.3.1",
+    "moment": "^2.29.1",
+    "normalize.css": "^8.0.1",
     "react-bootstrap": "^1.5.2",
-    "react-router-dom": "^5.2.0"
+    "react-datepicker": "^3.8.0",
+    "react-hook-form": "^7.4.2",
+    "react-multi-carousel": "^2.6.2",
+    "react-responsive-carousel": "^3.2.18",
+    "react-router-dom": "^5.2.0",
+    "react-toastify": "^7.0.4",
+    "styled-normalize": "^8.0.7"
   }
 }

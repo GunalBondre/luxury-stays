@@ -11,7 +11,9 @@ const Footer = () => {
 	return (
 		<FooterWrapper>
 			<div className="my-4">
-				<h5 className="text-center">Copyright @2021 Travelly.com</h5>
+				<h5 className="title5 text-white text-center">
+					Copyright @2021 Travelly.com
+				</h5>
 			</div>
 		</FooterWrapper>
 	);

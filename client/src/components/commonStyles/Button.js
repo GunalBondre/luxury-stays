@@ -1,10 +1,18 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const Button = styled.button`
-	width: 100%;
 	background-color: ${(props) => props.theme.primaryColor};
 	color: ${(props) => props.theme.secondaryColor};
 	border: none;
 	outline: none;
-	padding: 5px 0;
+	width: 100%;
+	padding: 10px;
+	padding: 10px;
+	margin: 10px auto auto auto;
+
+	${(props) =>
+		props.search &&
+		css`
+			height: 50px;
+		`}
 `;

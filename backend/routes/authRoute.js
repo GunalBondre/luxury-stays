@@ -5,7 +5,15 @@ const router = express.Router();
 const authController = require("../controller/authController");
 
 // routes
-router.route("/login").post(authController.login);
-router.route("/register").post(authController.register);
+router.route("/login").get(authController.login).post(authController.login);
+router
+	.route("/register")
+	.get(authController.register)
+	.post(authController.register);
+
+router
+	.route("/:id")
+	.patch(authController.updateUser)
+	.delete(authController.deleteUser);
 
 module.exports = router;

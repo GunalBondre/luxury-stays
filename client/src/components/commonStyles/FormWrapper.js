@@ -13,7 +13,7 @@ export const FormWrapper = styled.div`
 	img {
 		width: 100%;
 		overflow: hidden;
-		min-height: 495px;
+		min-height: 528px;
 	}
 
 	.left-form {
