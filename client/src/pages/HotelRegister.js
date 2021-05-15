@@ -45,16 +45,8 @@ const HotelRegister = () => {
 		bed: "",
 		image: "",
 	});
-	const {
-		hotelName,
-		description,
-		location,
-		price,
-		bed,
-		to,
-		from,
-		image,
-	} = values;
+	const { hotelName, description, location, price, bed, to, from, image } =
+		values;
 
 	const handleSubmit = (e) => {
 		e.preventDefault();

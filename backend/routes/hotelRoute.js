@@ -10,6 +10,7 @@ const hotelController = require("../controller/hotelController");
 router.route("/register").post(formidable(), hotelController.registerHotel);
 
 router.route("/").get(hotelController.allHotels);
+router.route("/image/:id").get(hotelController.image);
 
 router
 	.route("/:id")

@@ -7,6 +7,11 @@ const userSchema = mongoose.Schema(
 		password: { type: String },
 		googleId: { type: String },
 		phone: { type: String },
+		roles: {
+			type: String,
+			enum: ["user", "admin", "seller"],
+			default: "user",
+		},
 	},
 	{ timestamp: true }
 );

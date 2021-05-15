@@ -7,16 +7,7 @@ import history from "../../history";
 const hotelSlice = createSlice({
 	name: "hotel",
 	initialState: {
-		hotel: {
-			hotelName: "",
-			description: "",
-			location: "",
-			price: "",
-			bed: "",
-			to: "",
-			from: "",
-			image: "",
-		},
+		hotel: {},
 	},
 
 	// reducers
@@ -27,10 +18,21 @@ const hotelSlice = createSlice({
 		registerFailure: (state, action) => {
 			return state;
 		},
+		getAllHotelSuccess: (state, action) => {
+			state.hotel = action.payload;
+		},
+		getAllHotelFailure: (state, action) => {
+			return state;
+		},
 	},
 });
 
-const { registerFailure, registerSuccess } = hotelSlice.actions;
+const {
+	registerFailure,
+	registerSuccess,
+	getAllHotelFailure,
+	getAllHotelSuccess,
+} = hotelSlice.actions;
 
 export default hotelSlice.reducer;
 
@@ -53,10 +55,23 @@ export const register = (data, token) => async (dispatch) => {
 	});
 	if (res) {
 		dispatch(registerSuccess(res.data));
-		console.log(res.data);
 		history.push("/");
 	} else {
 		dispatch(registerFailure());
 		console.log("error");
+	}
+};
+
+export const getAllHotel = () => async (dispatch) => {
+	try {
+		let res = await axios.get("/hotel");
+		if (res) {
+			console.log(res.data);
+			dispatch(getAllHotelSuccess(res.data));
+		}
+	} catch (error) {
+		console.log("error");
+		dispatch(getAllHotelFailure());
+		if (error.response.status === 400) toast.error(error.response.data);
 	}
 };

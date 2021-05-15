@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Card } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import styled from "styled-components";
@@ -9,6 +10,8 @@ import hotel2 from "../images/hotel2.jpg";
 import hotel3 from "../images/hotel3.jpg";
 import RangeSlider from "../components/RangeSlider";
 import CheckFilters from "../components/CheckFilters";
+import { getAllHotel } from "../features/hotel/hotelSlice";
+import HotelCard from "../components/HotelCard";
 
 const Main = styled.section`
 	height: 100%;
@@ -130,8 +133,15 @@ const ListingGrid = styled.div`
 `;
 
 const Home = () => {
-	const [startDate, setStartDate] = useState(new Date());
+	// const [startDate, setStartDate] = useState(new Date());
+	// const [hotels, setHotels] = useState();
+	const dispatch = useDispatch();
+	useEffect(() => {
+		dispatch(getAllHotel());
+	}, []);
 
+	const { hotelDetail } = useSelector((state) => ({ ...state }));
+	const { hotel } = hotelDetail;
 	const handleSubmit = () => {};
 	const handleChange = () => {};
 	return (
@@ -251,119 +261,9 @@ const Home = () => {
 								</form>
 							</div>
 							<div className="row">
-								<div className="col-lg-4 col-md-6">
-									<Card style={{ width: "100%" }}>
-										<Card.Img variant="top" src={hotel1} />
-										<Card.Body>
-											<Card.Title>Golden Pearl Park</Card.Title>
-											<div className="location">Karve Nagar Pune</div>
-											<div className="rating">
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star-half"></i>
-											</div>
-											<div className="price">Rs - 999</div>
-											<Button>Book Now</Button>
-										</Card.Body>
-									</Card>
-								</div>
-
-								<div className="col-lg-4 col-md-6">
-									<Card style={{ width: "100%" }}>
-										<Card.Img variant="top" src={hotel3} />
-										<Card.Body>
-											<Card.Title>Golden Pearl Park</Card.Title>
-											<div className="location">Karve Nagar Pune</div>
-											<div className="rating">
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star-half"></i>
-											</div>
-											<div className="price">Rs - 999</div>{" "}
-											<Button>Book Now</Button>
-										</Card.Body>
-									</Card>
-								</div>
-
-								<div className="col-lg-4 col-md-6">
-									<Card style={{ width: "100%" }}>
-										<Card.Img variant="top" src={hotel2} />
-										<Card.Body>
-											<Card.Title>Golden Pearl Park</Card.Title>
-											<div className="location">Karve Nagar Pune</div>
-											<div className="rating">
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star-half"></i>
-											</div>
-											<div className="price">Rs - 999</div>{" "}
-											<Button>Book Now</Button>
-										</Card.Body>
-									</Card>
-								</div>
-
-								<div className="col-lg-4 col-md-6">
-									<Card style={{ width: "100%" }}>
-										<Card.Img variant="top" src={hotel3} />
-										<Card.Body>
-											<Card.Title>Golden Pearl Park</Card.Title>
-											<div className="location">Karve Nagar Pune</div>
-											<div className="rating">
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star-half"></i>
-											</div>
-											<div className="price">Rs - 999</div>
-											<Button>Book Now</Button>
-										</Card.Body>
-									</Card>
-								</div>
-
-								<div className="col-lg-4 col-md-6">
-									<Card style={{ width: "100%" }}>
-										<Card.Img variant="top" src={hotel1} />
-										<Card.Body>
-											<Card.Title>Golden Pearl Park</Card.Title>
-											<div className="location">Karve Nagar Pune</div>
-											<div className="rating">
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star-half"></i>
-											</div>
-											<div className="price">Rs - 999</div>
-											<Button>Book Now</Button>
-										</Card.Body>
-									</Card>
-								</div>
-
-								<div className="col-lg-4 col-md-6">
-									<Card style={{ width: "100%" }}>
-										<Card.Img variant="top" src={hotel2} />
-										<Card.Body>
-											<Card.Title>Golden Pearl Park</Card.Title>
-											<div className="location">Karve Nagar Pune</div>
-											<div className="rating">
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star"></i>
-												<i className="fa fa-star-half"></i>
-											</div>
-											<div className="price">Rs - 999</div>
-											<Button>Book Now</Button>
-										</Card.Body>
-									</Card>
-								</div>
+								{Object.values(hotel).map((item) => {
+									return <HotelCard key={item._id} item={item} />;
+								})}
 							</div>
 						</div>
 						<div className="col-md-3 col-sm-6">

@@ -6,6 +6,6 @@ export const store = configureStore({
 	reducer: {
 		counter: counterReducer,
 		auth: authReducer,
-		hotel: hotelReducer,
+		hotelDetail: hotelReducer,
 	},
 });
