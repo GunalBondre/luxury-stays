@@ -7,6 +7,8 @@ module.exports = function (app) {
 			"/hotel/register",
 			"/hotel",
 			"/hotel/image/:id",
+			"/hotel/:id",
+			"/hotel/sellerHotel",
 		],
 		createProxyMiddleware({
 			target: "http://localhost:4000",

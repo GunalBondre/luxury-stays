@@ -31,7 +31,7 @@ const SliderContainer = styled.div`
 	}
 `;
 
-const Slider = () => {
+const Slider = ({ singleHotel }) => {
 	return (
 		<div>
 			<SliderContainer>
@@ -49,10 +49,20 @@ const Slider = () => {
 					dotListClass="custom-dot-list-style"
 					itemClass="carousel-item-padding-40-px"
 				>
+					{console.log(singleHotel)}
 					<div>
-						<img src={hotelImg1} alt="" />
+						<img src={`/hotel/image/${singleHotel._id}`} alt="" />
 					</div>
 					<div>
+						<img src={`/hotel/image/${singleHotel._id}`} alt="" />
+					</div>
+					<div>
+						<img src={`/hotel/image/${singleHotel._id}`} alt="" />
+					</div>
+					<div>
+						<img src={`/hotel/image/${singleHotel._id}`} alt="" />
+					</div>
+					{/* <div>
 						<img src={hotelImg2} alt="" />
 					</div>
 					<div>
@@ -60,7 +70,7 @@ const Slider = () => {
 					</div>
 					<div>
 						<img src={hotelImg4} alt="" />
-					</div>
+					</div> */}
 				</Carousel>
 			</SliderContainer>
 			;

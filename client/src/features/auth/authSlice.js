@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { token } from "morgan";
 import { toast } from "react-toastify";
 import history from "../../history";
 
@@ -60,7 +61,6 @@ export const register = (user) => async (dispatch) => {
 			phone: user.phone,
 		};
 		const response = await axios.post("/auth/register", userData);
-		console.log("response is", response.data);
 
 		if (response) {
 			console.log("data is ", response.data);
@@ -86,10 +86,12 @@ export const login = (user) => async (dispatch) => {
 			password: user.password,
 		};
 
-		const response = await axios.post("/auth/login", userData);
-		console.log("response is", response);
+		const response = await axios.post("/auth/login", userData, {
+			headers: {
+				Authorization: `Bearer ${user.token}`,
+			},
+		});
 		if (response) {
-			console.log("data is", response.data);
 			localStorage.setItem("auth", JSON.stringify(response.data));
 			dispatch(loginSuccess(response.data));
 			history.push("/");

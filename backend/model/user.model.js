@@ -21,7 +21,6 @@ userSchema.pre("save", function (next) {
 	if (user.isModified("password")) {
 		return bcrypt.hash(user.password, 12, function (err, hash) {
 			if (err) {
-				console.log("err", err);
 				return next(err);
 			}
 			user.password = hash;
@@ -35,7 +34,6 @@ userSchema.pre("save", function (next) {
 userSchema.methods.comparePassword = function (password, next) {
 	bcrypt.compare(password, this.password, function (err, match) {
 		if (err) {
-			console.log(err);
 			return next(err, false);
 		}
 

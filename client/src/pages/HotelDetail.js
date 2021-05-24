@@ -2,6 +2,8 @@ import React from "react";
 import Slider from "../components/Slider";
 import styled from "styled-components";
 import { Button } from "../components/commonStyles/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { getSingleHotel } from "../features/hotel/hotelSlice";
 
 const InfoWrapper = styled.div`
 	.hotelDescription {
@@ -30,33 +32,31 @@ const InfoWrapper = styled.div`
 `;
 
 const HotelDetail = () => {
+	const dispatch = useDispatch();
+	const { hotelDetail } = useSelector((state) => ({ ...state }));
+	const { singleHotel } = hotelDetail;
 	return (
 		<div>
 			<InfoWrapper>
-				<Slider />
+				<Slider singleHotel={singleHotel} />
 				<div className="container">
 					<div className="row">
 						<div className="col-lg-8">
 							<div className="hotelDetails">
 								<div className="hotelTitle">
-									<h1 className="title1">Golden Pearl Park</h1>
-									<h5 className="title5">Karve Nagar near bus stop pune</h5>
+									<h1 className="title1">{singleHotel.hotelName}</h1>
+									<h5 className="title5">{singleHotel.location}</h5>
 								</div>
 
 								<div className="hotelDescription">
 									<h3 className="title3">Description</h3>
 
-									<p className="para1">
-										Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-										Voluptatum, laborum. Perspiciatis doloribus earum
-										praesentium deserunt officia a impedit quas provident illo
-										temporibus quis corporis cum, quasi perferendis voluptates.
-									</p>
+									<p className="para1">{singleHotel.description}</p>
 								</div>
 
 								<div className="hotelAmenities text-padding">
 									<h3 className="title3">Amenities</h3>
-									<ul class="amenities d-flex flex-wrap justify-content-between">
+									<ul className="amenities d-flex flex-wrap justify-content-between">
 										<li>
 											<i className="fa fa-check"></i> AC
 										</li>

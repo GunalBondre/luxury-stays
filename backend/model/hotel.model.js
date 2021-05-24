@@ -29,11 +29,17 @@ const hotelSchema = mongoose.Schema(
 			data: Buffer,
 			contentType: String,
 		},
+
 		bed: { type: Number },
 
 		postedBy: {
-			type: mongoose.Schema.ObjectId,
+			type: mongoose.Schema.Types.ObjectId,
 			ref: "User",
+		},
+		verifiedStatus: {
+			type: String,
+			enum: ["verified", "pending", "rejected"],
+			default: "pending",
 		},
 	},
 	{ timestamp: true }

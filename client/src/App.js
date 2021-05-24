@@ -17,6 +17,8 @@ import PublicRoute from "./components/PublicRoute";
 import Dashboard from "./pages/Dashboard";
 import "antd/dist/antd.css";
 import HotelRegister from "./pages/HotelRegister";
+import SellerDashboard from "./pages/SellerDashboard";
+import EditHotel from "./components/EditHotel";
 function App() {
 	return (
 		<ThemeProvider theme={theme}>
@@ -33,7 +35,7 @@ function App() {
 
 						<PublicRoute path="/register" component={Register}></PublicRoute>
 						<PrivateRoute
-							path="/hotelDetail"
+							path="/view/:id"
 							component={HotelDetail}
 						></PrivateRoute>
 						<PrivateRoute
@@ -43,6 +45,14 @@ function App() {
 						<PrivateRoute
 							path="/dashboard"
 							component={Dashboard}
+						></PrivateRoute>
+						<PrivateRoute
+							path="/seller-dashboard"
+							component={SellerDashboard}
+						></PrivateRoute>
+						<PrivateRoute
+							path="/hotel/edit/:id"
+							component={EditHotel}
 						></PrivateRoute>
 					</Switch>
 				</Router>

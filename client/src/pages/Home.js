@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Card } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import styled from "styled-components";
 import homeImg from "../images/home.jpg";
 import { Button } from "../components/commonStyles/Button";
-import hotel1 from "../images/hotel1.jpg";
-import hotel2 from "../images/hotel2.jpg";
-import hotel3 from "../images/hotel3.jpg";
+
 import RangeSlider from "../components/RangeSlider";
 import CheckFilters from "../components/CheckFilters";
 import { getAllHotel } from "../features/hotel/hotelSlice";
@@ -135,9 +132,10 @@ const ListingGrid = styled.div`
 const Home = () => {
 	// const [startDate, setStartDate] = useState(new Date());
 	// const [hotels, setHotels] = useState();
+	const { auth } = useSelector((state) => ({ ...state }));
 	const dispatch = useDispatch();
 	useEffect(() => {
-		dispatch(getAllHotel());
+		dispatch(getAllHotel(auth.user.token, auth.user.roles));
 	}, []);
 
 	const { hotelDetail } = useSelector((state) => ({ ...state }));
@@ -232,7 +230,7 @@ const Home = () => {
 			<ListingGrid>
 				<div className="container">
 					<div className="row">
-						<div className="col-md-9">
+						<div className="col-lg-9 col-md-12">
 							<div className="searchContainer">
 								<form action="">
 									<div className="row">
@@ -266,7 +264,7 @@ const Home = () => {
 								})}
 							</div>
 						</div>
-						<div className="col-md-3 col-sm-6">
+						<div className="col-lg-3 col-md-12">
 							<div className="rightSide">
 								<h2 className="title2 mb-4">Filters</h2>
 								<RangeSlider />
