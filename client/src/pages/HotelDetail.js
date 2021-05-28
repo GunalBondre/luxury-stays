@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import Slider from "../components/Slider";
 import styled from "styled-components";
 import { Button } from "../components/commonStyles/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { getSingleHotel } from "../features/hotel/hotelSlice";
+// import { getSingleHotel } from "../features/hotel/hotelSlice";
+import { DatePicker, Select } from "antd";
+import moment from "moment";
+
+import { stripePay } from "../features/payment/paymentSlice";
+import Form from "antd/lib/form/Form";
 
 const InfoWrapper = styled.div`
 	.hotelDescription {
@@ -33,8 +38,29 @@ const InfoWrapper = styled.div`
 
 const HotelDetail = () => {
 	const dispatch = useDispatch();
+	const [values, setValues] = useState({
+		to: "",
+		from: "",
+	});
+	const { to, from } = values;
 	const { hotelDetail } = useSelector((state) => ({ ...state }));
+	const { auth } = useSelector((state) => ({ ...state }));
+
 	const { singleHotel } = hotelDetail;
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		dispatch(
+			stripePay(
+				singleHotel._id,
+				singleHotel.price,
+				singleHotel.hotelName,
+				to,
+				from,
+				auth.user.token
+			)
+		);
+	};
+
 	return (
 		<div>
 			<InfoWrapper>
@@ -95,34 +121,62 @@ const HotelDetail = () => {
 							</div>
 						</div>
 						<div className="col-lg-4">
-							<div className="rightSide text-padding">
-								<div className="price text-padding">
-									<h4 className="title4">Rs - 999</h4>
-									<span>Inclusive of all taxes</span>
-								</div>
-								<div className="roomType text-padding">Standard Room</div>
-								<div className="couponSection ">
-									<i className="fas fa-tags mx-2"></i>
-									<span className="amount text-padding mx-2">
-										10% Off coupon by Travelly
-									</span>{" "}
-									<input type="checkbox" name="coupon" id="" />
-								</div>
-								<div className="couponSection text-padding ">
-									<i className="fas fa-tags mx-2"></i>
-									<span className="amount text-padding mx-2">
-										Save 5% by Hdfc bank card
-									</span>{" "}
-									<input type="checkbox" name="coupon" id="" />
-								</div>
-								<div className="total text-padding d-flex justify-content-between">
-									<p className="para1">Total Price</p>
-									<h4 className="title4">Rs - 999</h4>
+							<form onSubmit={handleSubmit}>
+								<div className="rightSide text-padding">
+									<div className="price text-padding">
+										<h4 className="title4">Rs - {singleHotel.price}</h4>
+										<span>Inclusive of all taxes</span>
+									</div>
+									<div className="roomType text-padding">Standard Room</div>
+
+									<DatePicker
+										placeholder="From date"
+										className="form-control mb-2"
+										onChange={(date, dateString) => {
+											setValues({
+												...values,
+												from: dateString,
+											});
+										}}
+										values={from}
+										disabledDate={(current) =>
+											current &&
+											current.valueOf() < moment().subtract(1, "days")
+										}
+									/>
+									<DatePicker
+										placeholder="To date"
+										className="form-control mb-2"
+										onChange={(date, dateString) => {
+											setValues({
+												...values,
+												to: dateString,
+											});
+										}}
+										values={to}
+										disabledDate={(current) =>
+											current &&
+											current.valueOf() < moment().subtract(1, "days")
+										}
+									/>
+
+									<div className="couponSection my-2">
+										<i className="fas fa-tags mx-2"></i>
+										<span className="amount text-padding mx-2">
+											10% Off coupon by Travelly
+										</span>{" "}
+										<input type="checkbox" name="coupon" id="" />
+									</div>
+
+									<div className="total text-padding d-flex justify-content-between">
+										<p className="para1">Total Price</p>
+										<h4 className="title4">Rs - {singleHotel.price}</h4>
+									</div>
 								</div>
 								<div className="buyNow">
 									<Button>Buy Now</Button>
 								</div>
-							</div>
+							</form>
 						</div>
 					</div>
 				</div>

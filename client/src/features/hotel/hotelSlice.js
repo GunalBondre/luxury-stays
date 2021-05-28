@@ -68,8 +68,8 @@ export const register = (data, token) => async (dispatch) => {
 	hotelData.append("hotelName", data.hotelName);
 	hotelData.append("description", data.description);
 	hotelData.append("price", data.price);
-	hotelData.append("to", data.to);
-	hotelData.append("from", data.from);
+	// hotelData.append("to", data.to);
+	// hotelData.append("from", data.from);
 	hotelData.append("location", data.location);
 	data.image && hotelData.append("image", data.image);
 	hotelData.append("bed", data.bed);
@@ -138,7 +138,6 @@ export const editHotel = (data, id) => async (dispatch) => {
 
 	try {
 		let res = await axios.put(`/hotel/${id}`, hotelData);
-		console.log(res.data);
 		if (res) {
 			dispatch(editHotelSuccess(res.data));
 			history.push(`/dashboard`);

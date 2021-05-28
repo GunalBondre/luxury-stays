@@ -6,6 +6,7 @@ const port = process.env.PORT || 4000;
 const indexRoute = require("./routes/index");
 const authRouter = require("./routes/authRoute");
 const hotelRouter = require("./routes/hotelRoute");
+const paymentRouter = require("./routes/paymentRoute");
 
 require("./model/db");
 // middlewares
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use("/", indexRoute);
 app.use("/auth", authRouter);
 app.use("/hotel", hotelRouter);
+app.use("/billing", paymentRouter);
 
 // port
 app.listen(port, () => {

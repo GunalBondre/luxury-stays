@@ -57,8 +57,8 @@ const HotelRegister = () => {
 			location,
 			price,
 			bed,
-			to,
-			from,
+			// to,
+			// from,
 			image,
 		};
 		dispatch(register(data, auth.user.token));
@@ -118,12 +118,12 @@ const HotelRegister = () => {
 							<Option value="Bangalore">Bangalore</Option>
 						</Select>
 					</div>
-					<div className="form-group">
+					{/* <div className="form-group">
 						<div className="row">
 							<div className="col-md-6">
 								{" "}
 								<DatePicker
-									placeholder="from date"
+									placeholder="Available from"
 									className="form-control"
 									onChange={(date, dateString) => {
 										setValues({
@@ -140,7 +140,7 @@ const HotelRegister = () => {
 							<div className="col-md-6">
 								{" "}
 								<DatePicker
-									placeholder="to date"
+									placeholder="Available Till"
 									className="form-control"
 									onChange={(date, dateString) => {
 										setValues({
@@ -155,7 +155,7 @@ const HotelRegister = () => {
 								/>
 							</div>
 						</div>
-					</div>
+					</div> */}
 					<div className="form-group">
 						{/* <input
 							type="Number"
@@ -167,13 +167,16 @@ const HotelRegister = () => {
 						/> */}
 						<Select
 							onChange={(value) => setValues({ ...values, bed: value })}
-							placeholder="No Of Beds"
+							placeholder="No Of Rooms"
 							style={{ width: "100%" }}
 						>
-							<Option key={1}>1</Option>
 							<Option key={2}>2</Option>
-							<Option key={3}>3</Option>
 							<Option key={4}>4</Option>
+							<Option key={6}>6</Option>
+							<Option key={8}>8</Option>
+							<Option key={10}>10</Option>
+							<Option key={15}>15</Option>
+							<Option key={20}>20</Option>
 						</Select>
 					</div>
 					<div className="form-group">

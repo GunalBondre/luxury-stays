@@ -96,9 +96,6 @@ footer, header, hgroup, menu, nav, section {
 }
 
 
-ol, ul {
-	list-style: none;
-}
 
 
 input[type=search]::-webkit-search-cancel-button,

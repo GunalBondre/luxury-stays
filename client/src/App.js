@@ -19,6 +19,8 @@ import "antd/dist/antd.css";
 import HotelRegister from "./pages/HotelRegister";
 import SellerDashboard from "./pages/SellerDashboard";
 import EditHotel from "./components/EditHotel";
+import Success from "./components/Success";
+
 function App() {
 	return (
 		<ThemeProvider theme={theme}>
@@ -27,6 +29,7 @@ function App() {
 				<Normalize />
 				<GolbalStyle />
 				<Header />
+
 				<Router>
 					<Switch>
 						<Route exact path="/" component={Home}></Route>
@@ -53,6 +56,10 @@ function App() {
 						<PrivateRoute
 							path="/hotel/edit/:id"
 							component={EditHotel}
+						></PrivateRoute>
+						<PrivateRoute
+							path="/payment/success/:id"
+							component={Success}
 						></PrivateRoute>
 					</Switch>
 				</Router>

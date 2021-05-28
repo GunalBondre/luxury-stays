@@ -12,6 +12,7 @@ const userSchema = mongoose.Schema(
 			enum: ["user", "admin", "seller"],
 			default: "user",
 		},
+		stripe_session: {},
 	},
 	{ timestamp: true }
 );

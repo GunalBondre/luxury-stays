@@ -9,6 +9,9 @@ module.exports = function (app) {
 			"/hotel/image/:id",
 			"/hotel/:id",
 			"/hotel/sellerHotel",
+			"/billing/create-payment-intent",
+			"/billing/create-checkout-session",
+			"/billing/orderSuccess",
 		],
 		createProxyMiddleware({
 			target: "http://localhost:4000",
@@ -16,7 +19,7 @@ module.exports = function (app) {
 	);
 
 	// app.use(
-	// 	[""],
+	// 	["/payment/success", "/payment/failure"],
 	// 	createProxyMiddleware({
 	// 		target: "http://localhost:3000",
 	// 	})

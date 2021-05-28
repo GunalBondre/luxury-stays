@@ -34,8 +34,8 @@
     "styled-components": "^5.2.3"
   },
   "dependencies": {
-    "@stripe/react-stripe-js": "^1.4.0",
-    "@stripe/stripe-js": "^1.14.0",
+    "@stripe/react-stripe-js": "^1.4.1",
+    "@stripe/stripe-js": "^1.15.0",
     "axios": "^0.21.1",
     "boostrap": "^2.0.0",
     "bootstrap": "^4.6.0",
@@ -50,7 +50,9 @@
     "react-multi-carousel": "^2.6.2",
     "react-responsive-carousel": "^3.2.18",
     "react-router-dom": "^5.2.0",
+    "react-stripe-checkout": "^2.6.3",
     "react-toastify": "^7.0.4",
+    "stripe": "^8.149.0",
     "styled-normalize": "^8.0.7"
   }
 }
