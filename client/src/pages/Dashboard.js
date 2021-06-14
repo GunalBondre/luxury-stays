@@ -1,11 +1,21 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Tabs } from "antd";
+import { isSameOrAfter } from "dayjs/plugin/isSameOrAfter";
 
 import { useSelector, useDispatch } from "react-redux";
-import { hotelBySeller, getAllHotel } from "../features/hotel/hotelSlice";
+import {
+	hotelBySeller,
+	getAllHotel,
+	booking_update_to_seller,
+} from "../features/hotel/hotelSlice";
 import SellerHotelCard from "../components/SellerHotelCard";
+import SellerCard from "../components/SellerCard";
+
 import AdminCard from "../components/AdminCard";
+import { userBookings } from "../features/payment/paymentSlice";
+import dayjs from "dayjs";
+import UserDashboardCard from "../components/UserDashboardCard";
 
 const { TabPane } = Tabs;
 
@@ -42,13 +52,22 @@ const Dashboard = () => {
 	const { auth } = useSelector((state) => ({ ...state }));
 	const { hotelDetail } = useSelector((state) => ({ ...state }));
 	const { hotel } = hotelDetail;
+	const { allBooking } = useSelector((state) => ({ ...state }));
+	const { fetchBooking } = allBooking;
+	const { userBooking } = hotelDetail;
+	let now = dayjs(new Date()).format("DD-MM-YY");
+
 	const dispatch = useDispatch();
 	useEffect(() => {
 		if (auth.user.roles === "seller") {
 			dispatch(hotelBySeller(auth.user.token));
+			dispatch(booking_update_to_seller(auth.user.token));
 		}
 		if (auth.user.roles === "admin") {
 			dispatch(getAllHotel(auth.user.token));
+		}
+		if (auth.user.roles === "user") {
+			dispatch(userBookings(auth.user.token));
 		}
 	}, [dispatch]);
 
@@ -56,18 +75,44 @@ const Dashboard = () => {
 		return (
 			<>
 				<DashboardWrapper>
-					<h1 className="title1">Seller Dashboard</h1>;
+					<h1 className="title1">Seller Dashboard</h1>
+
 					<Tabs defaultActiveKey="seller">
-						<TabPane tab="Pending" key="pending" className="tabs">
+						<TabPane tab="Todays Bookings" key="today" className="tabs">
+							{Object.values(userBooking).map((item) => {
+								if (item.to === now) {
+									return <SellerCard key={item._id} item={item} />;
+								}
+							})}
+						</TabPane>
+						<TabPane tab="Upcoming Bookings" key="upcoming" className="tabs">
+							{Object.values(userBooking).map((item) => {
+								if (item.to > now) {
+									return <SellerCard key={item._id} item={item} />;
+								}
+							})}
+						</TabPane>
+						<TabPane tab="Completed Bookings" key="completed" className="tabs">
+							{Object.values(userBooking).map((item) => {
+								if (dayjs(item.to).isBefore(dayjs(now))) {
+									return <SellerCard key={item._id} item={item} />;
+								}
+							})}
+						</TabPane>
+					</Tabs>
+
+					<hr />
+					<Tabs defaultActiveKey="seller">
+						<TabPane tab="Verified Hotels" key="verified" className="tabs">
 							{Object.values(hotel).map((item) => {
-								if (item.verifiedStatus === "pending") {
+								if (item.verifiedStatus === "verified") {
 									return <SellerHotelCard key={item._id} item={item} />;
 								}
 							})}
 						</TabPane>
-						<TabPane tab="Verified" key="verified" className="tabs">
+						<TabPane tab="Pending Hotels" key="pending" className="tabs">
 							{Object.values(hotel).map((item) => {
-								if (item.verifiedStatus === "verified") {
+								if (item.verifiedStatus === "pending") {
 									return <SellerHotelCard key={item._id} item={item} />;
 								}
 							})}
@@ -111,40 +156,27 @@ const Dashboard = () => {
 			</>
 		);
 	};
-	// if (item.verifiedStatus && item.verifiedStatus === "pending") {
-	// 	return (
-	// 		<TabPane tab="Pending" key="1" className="tabs">
-	// 			<AdminCard key={item._id} item={item} />;
-	// 		</TabPane>
-	// 	);
 
-	// } else if (item.verifiedStatus === "verified") {
-	// 	return (
-	// 		<TabPane tab="Verified" key="2" className="tabs">
-	// 			<AdminCard key={item._id} item={item} />;
-	// 		</TabPane>
-	// 	);
-	// } else {
-	// 	return (
-	// 		<TabPane tab="Rejected" key="3" className="tabs">
-	// 			<AdminCard key={item._id} item={item} />;
-	// 		</TabPane>
-	// 	);
-	// }
 	const UserDashboard = () => {
 		return (
 			<>
 				<DashboardWrapper>
-					<Tabs defaultActiveKey="1">
-						<TabPane tab="Upcoming" key="1" className="tabs">
-							Upcoming Bookings
+					<Tabs defaultActiveKey="user">
+						<TabPane tab="Upcoming" key="upcoming" className="tabs">
+							{Object.values(fetchBooking).map((item) => {
+								if (item.to > now) {
+									return <UserDashboardCard key={item._id} item={item} />;
+								}
+							})}
 						</TabPane>
-						<TabPane tab="Cancelled" key="2" className="tabs">
-							Cancelled Bookings
+						<TabPane tab="Completed" key="completed" className="tabs">
+							{Object.values(fetchBooking).map((item) => {
+								if (item.to < now) {
+									return <UserDashboardCard key={item._id} item={item} />;
+								}
+							})}
 						</TabPane>
-						<TabPane tab="Completed" key="3" className="tabs">
-							Completed Bookings
-						</TabPane>
+						{/* <TabPane tab="Cancelled" key="cancelled" className="tabs"></TabPane> */}
 					</Tabs>
 				</DashboardWrapper>
 				;

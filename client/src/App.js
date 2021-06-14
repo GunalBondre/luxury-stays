@@ -20,6 +20,7 @@ import HotelRegister from "./pages/HotelRegister";
 import SellerDashboard from "./pages/SellerDashboard";
 import EditHotel from "./components/EditHotel";
 import Success from "./components/Success";
+import Search from "./pages/Search";
 
 function App() {
 	return (
@@ -33,8 +34,8 @@ function App() {
 				<Router>
 					<Switch>
 						<Route exact path="/" component={Home}></Route>
+
 						<PublicRoute path="/login" component={Login}></PublicRoute>
-						<Route path="/counter" component={Counter}></Route>
 
 						<PublicRoute path="/register" component={Register}></PublicRoute>
 						<PrivateRoute
@@ -61,6 +62,7 @@ function App() {
 							path="/payment/success/:id"
 							component={Success}
 						></PrivateRoute>
+						<PrivateRoute path="/search" component={Search}></PrivateRoute>
 					</Switch>
 				</Router>
 				<Footer />

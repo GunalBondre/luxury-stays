@@ -3,9 +3,12 @@ const HotelModel = require("../model/hotel.model");
 const paymentModel = require("../model/order.model");
 const User = require("../model/user.model");
 const stripe = require("stripe")(process.env.REACT_APP_PRIVATE_KEY);
+const dayjs = require("dayjs");
 
 const stripePay = async (req, res) => {
 	const { id, price, name, to, from } = req.body;
+	console.log("stripe pay controller", req.body);
+
 	const user = await User.findById(req.user._id);
 	const session = await stripe.checkout.sessions.create({
 		payment_method_types: ["card"],
@@ -32,14 +35,12 @@ const stripePay = async (req, res) => {
 
 const orderSuccess = async (req, res) => {
 	try {
-		const { id, to, from, token } = req.body;
-		let hotel = await HotelModel.findById(id);
+		const { id, to, from } = req.body;
 		const user = await User.findById(req.user._id);
-
 		user.stripe_session.payment_status = "paid";
 		user.save();
-		let order = new paymentModel(req.body).populate("id", "orderedBy");
 
+		const hotel = await HotelModel.findById(id);
 		const session = await stripe.checkout.sessions.retrieve(
 			user.stripe_session.id
 		);
@@ -55,12 +56,14 @@ const orderSuccess = async (req, res) => {
 					to,
 					from,
 					orderedBy: user._id,
+					name: user.name,
+					hotelName: hotel.hotelName,
 				}).save();
-				console.log(newOrder);
 				await User.findByIdAndUpdate(user._id, {
 					$set: { stripe_session: {} },
 				});
-
+				hotel.bed = hotel.bed - 1;
+				hotel.save();
 				res.json({ success: true });
 			}
 		}

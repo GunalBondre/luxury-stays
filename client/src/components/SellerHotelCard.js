@@ -49,6 +49,7 @@ const SellerHotelCard = ({ item }) => {
 								<p className="para1">{item.location}</p>
 								<p className="para1">{item.description.substring(0, 100)}...</p>
 								<span>Rs - {item.price}</span>
+								<p>Rooms Available - {item.bed}</p>
 							</div>
 						</div>
 						<div className="col-md-2">

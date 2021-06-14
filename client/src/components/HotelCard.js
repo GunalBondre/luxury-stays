@@ -25,7 +25,10 @@ const HotelCard = ({ item }) => {
 					<Card.Body>
 						<Card.Title>{item.hotelName}</Card.Title>
 						<Card.Text>{item.description.substring(0, 150)}...</Card.Text>
-						<p className="para1 mt-3">
+						<p className="para1 mt-2">
+							<b>{`Available Rooms : ${item.bed}`}</b>
+						</p>
+						<p className="para1 mt-2">
 							<b>Rs {item.price}</b>
 						</p>
 						<Button onClick={handleClick}>View More</Button>

@@ -16,7 +16,8 @@ const hotelSlice = createSlice({
 	initialState: {
 		hotel: {},
 		singleHotel: singleHotelData,
-		// sellerhotel: sellerHotelData,
+		isBooked: {},
+		userBooking: {},
 	},
 
 	// reducers
@@ -46,6 +47,15 @@ const hotelSlice = createSlice({
 		deleteHotelSuccess: (state, action) => {
 			return state;
 		},
+		bookedStatus: (state, action) => {
+			state.isBooked = action.payload;
+		},
+		roomAvailable: (state, action) => {
+			state.hotel.bed = action.payload;
+		},
+		userBookingsuccess: (state, action) => {
+			state.userBooking = action.payload;
+		},
 	},
 });
 
@@ -57,7 +67,9 @@ export const {
 	getSingleHotelFailure,
 	getSingleHotelSuccess,
 	editHotelSuccess,
+	bookedStatus,
 	deleteHotelSuccess,
+	userBookingsuccess,
 } = hotelSlice.actions;
 
 export default hotelSlice.reducer;
@@ -91,10 +103,11 @@ export const register = (data, token) => async (dispatch) => {
 export const getAllHotel = (token, roles) => async (dispatch) => {
 	try {
 		let res = await axios.get("/hotel", {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
+			// headers: {
+			// 	Authorization: `Bearer ${token}`,
+			// },
 		});
+		console.log(res);
 		if (res) {
 			dispatch(getAllHotelSuccess(res.data));
 			if (roles === "admin" || roles === "seller") {
@@ -172,7 +185,6 @@ export const deleteHotel = (id) => async (dispatch) => {
 			history.push("/dashboard");
 		}
 	} catch (error) {
-		console.log("error");
 		toast.error("something wrong");
 	}
 };
@@ -188,4 +200,54 @@ export const handleAdminOperation = (id, operation) => async (dispatch) => {
 	} catch (error) {
 		toast.error("something went wrong");
 	}
+};
+
+export const isBookedHotel = (token, id) => async (dispatch) => {
+	try {
+		let res = await axios.get(`/hotel/isBooked/${id}`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		if (res) {
+			dispatch(bookedStatus(res.data));
+		}
+	} catch (error) {
+		console.log("error");
+	}
+};
+
+export const roomAvailable = () => async (dispatch) => {
+	await dispatch(`/hotel/roomAvailable`);
+};
+
+export const cancelBooking = (id) => async (dispatch) => {
+	try {
+		let res = await axios.post(`/hotel/cancelBooking/${id}`);
+		console.log(res);
+	} catch (error) {
+		console.log("error");
+	}
+};
+
+export const booking_update_to_seller = (token) => async (dispatch) => {
+	try {
+		let res = await axios.get(`/hotel/booking_update_to_seller`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+		console.log(res);
+		if (res) {
+			dispatch(userBookingsuccess(res.data));
+		}
+	} catch (error) {
+		console.log("error");
+	}
+};
+
+export const searchListing = (query) => async (dispatch) => {
+	console.log("slice");
+	await axios.post(`/hotel/search-listing`, query);
 };

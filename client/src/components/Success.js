@@ -8,14 +8,16 @@ export default function Success({ match }) {
 	const { orderDetail } = payment;
 	const dispatch = useDispatch();
 	useEffect(() => {
-		dispatch(
-			orderSuccess(
-				match.params.id,
-				auth.user.token,
-				orderDetail.to,
-				orderDetail.from
-			)
-		);
+		if (auth.user && auth.user.token) {
+			dispatch(
+				orderSuccess(
+					match.params.id,
+					auth.user.token,
+					orderDetail.to,
+					orderDetail.from
+				)
+			);
+		}
 	}, [match.params.id]);
 
 	return (

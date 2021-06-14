@@ -1,5 +1,7 @@
 const HotelModel = require("../model/hotel.model");
 const User = require("../model/user.model");
+const Order = require("../model/order.model");
+const dayjs = require("dayjs");
 
 require("dotenv").config();
 const fs = require("fs");
@@ -29,17 +31,17 @@ const registerHotel = async (req, res) => {
 };
 
 const allHotels = async (req, res) => {
-	let user = await User.findById(req.user._id);
-	if (user.roles === "user") {
-		let hotels = await HotelModel.find({ verifiedStatus: "verified" })
-			.limit(24)
-			.select("-image.data")
-			.populate("postedBy", "_id name");
-		res.json(hotels);
-	} else {
-		let hotels = await HotelModel.find({});
-		res.json(hotels);
-	}
+	// let user = await User.findById(req.user._id);
+	// if (user.roles === "user") {
+	let hotels = await HotelModel.find({ verifiedStatus: "verified" })
+		.limit(24)
+		.select("-image.data")
+		.populate("postedBy", "_id name");
+	res.json(hotels);
+	// } else {
+	// 	let hotels = await HotelModel.find({});
+	// 	res.json(hotels);
+	// }
 };
 
 const image = async (req, res) => {
@@ -114,7 +116,76 @@ const adminOperations = async (req, res) => {
 	}
 };
 
+const userBookings = async (req, res) => {
+	let allBooking = await Order.find({ orderedBy: req.user._id })
+		.select("stripe_session")
+		.select("to")
+		.populate("id", "-image.data")
+		.populate("orderedBy", "_id name")
+		.exec();
+	res.json(allBooking);
+};
+
+const isBooked = async (req, res) => {
+	let now = dayjs(new Date()).format("DD-MM-YY");
+	const { id } = req.params;
+	let allOrders = await Order.find({ orderedBy: req.user._id });
+
+	let orderArr = [];
+	let expOrder = [];
+
+	for (let i = 0; i < allOrders.length; i++) {
+		if (allOrders[i].to > now) {
+			orderArr.push(allOrders[i].id.toString());
+		} else {
+			expOrder.push(allOrders[i].id.toString());
+		}
+	}
+	return res.json({
+		ok: orderArr.includes(id),
+	});
+};
+
+const cancelBooking = async (req, res) => {
+	let order = await Order.findOneAndDelete({ _id: req.params.id });
+};
+
+const roomAvailable = async (req, res) => {
+	let allOrders = await Order.find();
+	const hotel = await HotelModel.find();
+};
+
+const booking_update_to_seller = async (req, res) => {
+	try {
+		let hotel = await HotelModel.find({ postedBy: req.user._id });
+		let userOrders;
+		let userOrderData = [];
+
+		if (hotel.length === 1) {
+			userOrders = await Order.find({ id: hotel._id });
+			return res.json(userOrders);
+		} else {
+			for (let i = 0; i < hotel.length; i++) {
+				userOrders = await Order.find({ id: hotel[i]._id }).exec();
+				userOrderData.push(...userOrders);
+			}
+			res.json(userOrderData);
+		}
+	} catch (error) {
+		console.log("error");
+	}
+};
+const searchListing = async (req, res) => {
+	console.log("hello", req.body);
+};
+
 module.exports = {
+	searchListing,
+	booking_update_to_seller,
+	roomAvailable,
+	cancelBooking,
+	isBooked,
+	userBookings,
 	image,
 	singleHotel,
 	allHotels,

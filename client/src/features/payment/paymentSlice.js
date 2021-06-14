@@ -8,9 +8,12 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 const paymentData = localStorage.getItem("payment")
 	? JSON.parse(localStorage.getItem("payment"))
 	: null;
+const BookingData = localStorage.getItem("bookingData")
+	? JSON.parse(localStorage.getItem("bookingData"))
+	: null;
 const paymentSlice = createSlice({
 	name: "payment",
-	initialState: { orderDetail: paymentData },
+	initialState: { orderDetail: paymentData, fetchBooking: {} },
 	reducers: {
 		paymentSuccess: (state, action) => {
 			state.orderDetail = action.payload;
@@ -24,6 +27,12 @@ const paymentSlice = createSlice({
 		orderFailedMessage: (state) => {
 			return state;
 		},
+		fetchBookingSuccess: (state, action) => {
+			state.fetchBooking = action.payload;
+		},
+		fetchBookingFailed: (state) => {
+			return state;
+		},
 	},
 });
 
@@ -32,6 +41,8 @@ export const {
 	paymentFailed,
 	orderSuccessMessage,
 	orderFailedMessage,
+	fetchBookingSuccess,
+	fetchBookingFailed,
 } = paymentSlice.actions;
 
 export default paymentSlice.reducer;
@@ -56,19 +67,18 @@ export const stripePay =
 					},
 				}
 			);
-			// if (response) {
-			// 	localStorage.setItem("payment", JSON.stringify(response.data));
-			// 	dispatch(paymentSuccess(response.data));
-			// }
 			const session = response.data;
-			const result = await stripe.redirectToCheckout({
-				sessionId: session.id,
-			});
-			if (result.error) {
-				toast.error("something went wrong");
+			if (session) {
+				localStorage.setItem("payment", JSON.stringify(session));
+				dispatch(orderSuccessMessage(session));
+				const result = await stripe.redirectToCheckout({
+					sessionId: session.id,
+				});
+				if (result.error) {
+					toast.error("something went wrong");
+				}
 			}
 		} catch (error) {
-			console.log("stripepay error");
 			toast.error("something went wrong");
 		}
 	};
@@ -85,13 +95,29 @@ export const orderSuccess = (id, token, to, from) => async (dispatch) => {
 				Authorization: `Bearer ${token}`,
 			},
 		});
-		console.log("ordersuccess", token);
-
+		console.log(response.data);
 		if (response) {
-			dispatch(orderSuccess(response.data));
 			history.push("/dashboard");
 		}
 	} catch (error) {
 		toast.error("something went wrong");
 	}
+};
+
+export const userBookings = (token) => async (dispatch) => {
+	try {
+		let response = await axios.get(`/hotel/user-bookings`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+		console.log(response);
+		if (response) {
+			// localStorage.setItem("bookingData", JSON.stringify(response.data));
+
+			dispatch(fetchBookingSuccess(response.data));
+		} else {
+			dispatch(fetchBookingFailed());
+		}
+	} catch (error) {}
 };

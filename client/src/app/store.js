@@ -3,11 +3,14 @@ import counterReducer from "../features/counter/counterSlice";
 import authReducer from "../features/auth/authSlice";
 import hotelReducer from "../features/hotel/hotelSlice";
 import paymentReducer from "../features/payment/paymentSlice";
+import fetchBookingtReducer from "../features/payment/paymentSlice";
+
 export const store = configureStore({
 	reducer: {
 		counter: counterReducer,
 		auth: authReducer,
 		hotelDetail: hotelReducer,
 		payment: paymentReducer,
+		allBooking: fetchBookingtReducer,
 	},
 });

@@ -9,6 +9,7 @@ import RangeSlider from "../components/RangeSlider";
 import CheckFilters from "../components/CheckFilters";
 import { getAllHotel } from "../features/hotel/hotelSlice";
 import HotelCard from "../components/HotelCard";
+import SearchBar from "../components/SearchBar";
 
 const Main = styled.section`
 	height: 100%;
@@ -45,22 +46,27 @@ const Main = styled.section`
 				@media (max-width: 991px) {
 					flex-direction: column;
 				}
+
 				.form-group {
 					display: flex;
 					position: relative;
 					flex-direction: column;
 					i {
 						position: absolute;
-						top: 50%;
+						top: 10px;
 						transform: translate(-50%);
-						left: 10px;
+						left: 20px;
+						/* padding-right: 100px; */
 					}
 
 					select {
 						width: 100%;
 						min-width: 150px;
-						padding-left: 10px;
+						/* padding-left: 50px; */
+						/* padding-top: 17px; */
+						appearance: none;
 					}
+
 					option {
 						padding-left: 10px;
 					}
@@ -70,39 +76,64 @@ const Main = styled.section`
 					border: none;
 					outline: none;
 					width: 100%;
-					min-width: 200px;
+					min-width: 140px;
 					border-radius: 0px;
-					padding: 0 10px;
+					margin-right: 10px;
+
+					color: rgba(0, 0, 0, 0.85);
+
 					&:focus {
 						outline: none;
 						box-shadow: none;
 					}
 				}
-				label {
+
+				.ant-select-selector {
+					height: 51px;
+					padding: 11px;
+					border: none;
+					outline: none;
+					&:focus {
+						border: none;
+						outline: none;
+					}
+				}
+				.ant-select-selection-item {
+					color: rgba(0, 0, 0, 0.85);
+				}
+				.ant-select-focused .ant-select-selector,
+				.ant-select-selector:focus,
+				.ant-select-selector:active,
+				.ant-select-open .ant-select-selector {
+					border-color: #d9d9d9 !important;
+					box-shadow: none !important;
+				}
+				.ant-picker-focused {
+					box-shadow: none !important;
+					border-color: #d9d9d9 !important;
+				}
+				.ant-select-arrow {
+					padding-top: 8px;
+				}
+				/* label {
 					font-size: 14px;
 					margin-bottom: 0px;
 					padding-left: 10px;
-				}
+				} */
 
 				#location {
 					/* border-right: 1px dotted black; */
-					padding-left: 20px;
+					padding-left: 40px;
 					@media (max-width: 767px) {
 						border-right: 1px solid black;
 					}
 				}
-				input[type="date"]::-webkit-calendar-picker-indicator,
-				input[type="date"]::-webkit-inner-spin-button {
-					display: none;
-				}
-				input[type="date"] {
-					padding-left: 20px;
-				}
+
 				input:focus {
 					outline: none;
 				}
 				#abode {
-					padding-left: 20px;
+					padding-left: 40px;
 				}
 			}
 		}
@@ -135,13 +166,12 @@ const Home = () => {
 	const { auth } = useSelector((state) => ({ ...state }));
 	const dispatch = useDispatch();
 	useEffect(() => {
-		dispatch(getAllHotel(auth.user.token, auth.user.roles));
+		dispatch(getAllHotel());
 	}, []);
 
 	const { hotelDetail } = useSelector((state) => ({ ...state }));
 	const { hotel } = hotelDetail;
-	const handleSubmit = () => {};
-	const handleChange = () => {};
+
 	return (
 		<div>
 			<Main>
@@ -158,70 +188,8 @@ const Home = () => {
 								repudiandae ex architecto suscipit sed? Quis, saepe.
 							</p>
 						</div>
-
 						<div className="hero__search-bar ">
-							<form action="" onSubmit={handleSubmit}>
-								<div className="form-group">
-									<label htmlFor="">Location</label>
-									<i className="fa fa-map-marker"></i>
-									<select
-										name="location"
-										onChange={handleChange}
-										id="location"
-										className="form-control"
-									>
-										<option value="disabled">Choose City.</option>
-										<option value="Pune">Pune</option>
-										<option value="Bangalore">Bangalore</option>
-										<option value="Mumbai">Mumbai</option>
-										<option value="Delhi">Delhi</option>
-									</select>
-								</div>
-
-								{/* <div className="datepicker d-flex"> */}
-								<div className="form-group">
-									<label htmlFor="">Check In</label>
-									<i className="fas fa-calendar-week"></i>
-									<input
-										type="date"
-										name="checkin"
-										onChange={handleChange}
-										id="date"
-										className="form-control"
-									/>
-								</div>
-								<div className="form-group">
-									<label htmlFor="">Check Out</label>
-									<i className="fas fa-calendar-week"></i>
-									<input
-										type="date"
-										name="checkin"
-										onChange={handleChange}
-										id="date"
-										className="form-control"
-									/>
-								</div>
-								{/* </div> */}
-								<div className="form-group">
-									<label htmlFor="">People</label>
-									<i className="fa fa-user"></i>
-									<select
-										name="abode"
-										id="abode"
-										name="abode"
-										onChange={handleChange}
-										className="form-control"
-									>
-										<option value="Pune">2 adults </option>
-										<option value="Bangalore">3 adults </option>
-										<option value="Mumbai">4 adults</option>
-										<option value="Delhi">5 adults</option>
-									</select>
-								</div>
-								<Button search className="">
-									Search
-								</Button>
-							</form>
+							<SearchBar />
 						</div>
 					</div>
 				</div>

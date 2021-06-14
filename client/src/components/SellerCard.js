@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { Button } from "../components/commonStyles/Button";
-import { getAllHotel } from "../features/hotel/hotelSlice";
+import { editHotel } from "../features/hotel/hotelSlice";
 import { deleteHotel } from "../features/hotel/hotelSlice";
 import { StyledLink } from "../components/commonStyles/Link";
 
-const SellerCard = styled.div`
+const SellerCardView = styled.div`
 	display: flex;
 	.row {
 		width: 100%;
@@ -20,7 +20,7 @@ const SellerCard = styled.div`
 		padding: 10px 0;
 	}
 `;
-const AllHotelCard = ({ item }) => {
+const SellerCard = ({ item }) => {
 	const dispatch = useDispatch();
 
 	const handleDelete = (e) => {
@@ -29,48 +29,40 @@ const AllHotelCard = ({ item }) => {
 		window.location.reload();
 	};
 
-	useEffect(() => {
-		dispatch(getAllHotel());
-	}, [dispatch]);
-
 	return (
 		<div>
 			<div className="container">
 				<div className="row">
-					<SellerCard>
+					<SellerCardView>
 						<div className="col-md-4">
 							<div className="imagesClass">
-								<img
-									src={`/hotel/image/${item._id}`}
-									alt=""
-									className="w-100"
-								/>
+								<img src={`/hotel/image/${item.id}`} alt="" className="w-100" />
 							</div>
 						</div>
 						<div className="col-md-6 d-flex">
 							<div className="description">
-								<h3 className="title3">{item.hotelName}</h3>
-								<p className="para1">{item.location}</p>
-								<p className="para1">{item.description.substring(0, 100)}...</p>
-
-								<span>Rs - {item.price}</span>
+								<h3 className="title3 text-capitalize">{item.hotelName}</h3>
+								<h3 className="title3 text-capitalize">{item.name}</h3>
+								<h4 className="title4 mb-2 text-capitalize">{`booked from - ${item.from} `}</h4>
+								<h4 className="title4 text-capitalize">{`booked till - ${item.to} `}</h4>
 							</div>
 						</div>
+
 						<div className="col-md-2">
-							<div className="buttonClass">
+							{/* <div className="buttonClass">
 								<StyledLink themebtn="true" to={`/hotel/edit/${item._id}`}>
 									Edit
 								</StyledLink>
 								<StyledLink themebtn="true" onClick={handleDelete}>
 									Delete
 								</StyledLink>
-							</div>
+							</div> */}
 						</div>
-					</SellerCard>
+					</SellerCardView>
 				</div>
 			</div>
 		</div>
 	);
 };
 
-export default AllHotelCard;
+export default SellerCard;

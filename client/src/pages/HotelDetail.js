@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Slider from "../components/Slider";
 import styled from "styled-components";
 import { Button } from "../components/commonStyles/Button";
 import { useDispatch, useSelector } from "react-redux";
-// import { getSingleHotel } from "../features/hotel/hotelSlice";
-import { DatePicker, Select } from "antd";
-import moment from "moment";
+import { isBookedHotel } from "../features/hotel/hotelSlice";
+import { DatePicker } from "../components";
+import { toast } from "react-toastify";
+import dayjs from "dayjs";
 
 import { stripePay } from "../features/payment/paymentSlice";
-import Form from "antd/lib/form/Form";
 
 const InfoWrapper = styled.div`
 	.hotelDescription {
@@ -37,29 +37,54 @@ const InfoWrapper = styled.div`
 `;
 
 const HotelDetail = () => {
+	// const { RangePicker } = DatePicker;
 	const dispatch = useDispatch();
 	const [values, setValues] = useState({
 		to: "",
 		from: "",
 	});
+
 	const { to, from } = values;
+
+	let diff = dayjs(to).diff(dayjs(from));
+	let dayDiff = parseInt(diff / (1000 * 3600 * 24));
+
 	const { hotelDetail } = useSelector((state) => ({ ...state }));
 	const { auth } = useSelector((state) => ({ ...state }));
 
 	const { singleHotel } = hotelDetail;
+
+	const total = singleHotel.price * dayDiff;
+	console.log("total is", total);
+
+	const { isBooked } = hotelDetail;
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		dispatch(
-			stripePay(
-				singleHotel._id,
-				singleHotel.price,
-				singleHotel.hotelName,
-				to,
-				from,
-				auth.user.token
-			)
-		);
+
+		if (auth.user && auth.user.token) {
+			dispatch(
+				stripePay(
+					singleHotel._id,
+					total,
+					singleHotel.hotelName,
+					to,
+					from,
+					auth.user.token
+				)
+			);
+		}
 	};
+
+	useEffect(() => {
+		if (auth.user && auth.user.token) {
+			dispatch(isBookedHotel(auth.user.token, singleHotel._id));
+		}
+	}, [dispatch]);
+
+	function disabledDate(current) {
+		// Can not select days before today and today
+		return current && current <= dayjs().subtract(1, "day");
+	}
 
 	return (
 		<div>
@@ -124,10 +149,11 @@ const HotelDetail = () => {
 							<form onSubmit={handleSubmit}>
 								<div className="rightSide text-padding">
 									<div className="price text-padding">
-										<h4 className="title4">Rs - {singleHotel.price}</h4>
+										<h4 className="title4">Rs - {singleHotel.price} per day</h4>
 										<span>Inclusive of all taxes</span>
 									</div>
 									<div className="roomType text-padding">Standard Room</div>
+									{/* <RangePicker disabledDate={disabledDate} /> */}
 
 									<DatePicker
 										placeholder="From date"
@@ -139,10 +165,7 @@ const HotelDetail = () => {
 											});
 										}}
 										values={from}
-										disabledDate={(current) =>
-											current &&
-											current.valueOf() < moment().subtract(1, "days")
-										}
+										disabledDate={disabledDate}
 									/>
 									<DatePicker
 										placeholder="To date"
@@ -154,10 +177,7 @@ const HotelDetail = () => {
 											});
 										}}
 										values={to}
-										disabledDate={(current) =>
-											current &&
-											current.valueOf() < moment().subtract(1, "days")
-										}
+										disabledDate={disabledDate}
 									/>
 
 									<div className="couponSection my-2">
@@ -170,11 +190,38 @@ const HotelDetail = () => {
 
 									<div className="total text-padding d-flex justify-content-between">
 										<p className="para1">Total Price</p>
-										<h4 className="title4">Rs - {singleHotel.price}</h4>
+										{to && from ? (
+											<h4 className="title4">
+												Rs - {singleHotel.price * dayDiff}
+											</h4>
+										) : (
+											<h4 className="title4">Rs - {singleHotel.price}</h4>
+										)}
 									</div>
 								</div>
 								<div className="buyNow">
-									<Button>Buy Now</Button>
+									{/* <Button disabled={() => !isBooked.ok}>
+										{isBooked.ok ? "Already Booked" : "Book Now"}
+									</Button> */}
+									{isBooked.ok ? (
+										<Button disabled style={{ backgroundColor: "grey" }}>
+											Already Booked
+										</Button>
+									) : from < to ? (
+										<Button>Book Now</Button>
+									) : (
+										<Button disabled style={{ backgroundColor: "grey" }}>
+											Book Now{" "}
+										</Button>
+									)}
+
+									{/* {!isBooked.ok && dayjs(from).isBefore(to) ? (
+										<Button>Book Now</Button>
+									) : (
+										<Button disabled style={{ backgroundColor: "grey" }}>
+											Book Now{" "}
+										</Button>
+									)} */}
 								</div>
 							</form>
 						</div>

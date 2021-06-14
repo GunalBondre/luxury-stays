@@ -19,12 +19,12 @@ const hotelSchema = mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		to: {
-			type: Date,
-		},
-		from: {
-			type: Date,
-		},
+		// to: {
+		// 	type: Date,
+		// },
+		// from: {
+		// 	type: Date,
+		// },
 		image: {
 			data: Buffer,
 			contentType: String,

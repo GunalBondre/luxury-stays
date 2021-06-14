@@ -6,6 +6,8 @@ const requireSignin = require("../middlewares/requireSignin");
 router
 	.route("/create-checkout-session")
 	.post(requireSignin, paymentController.stripePay);
+
+// order success route
 router
 	.route("/orderSuccess")
 	.post(requireSignin, paymentController.orderSuccess);

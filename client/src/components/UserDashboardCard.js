@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { Button } from "../components/commonStyles/Button";
-import { getAllHotel } from "../features/hotel/hotelSlice";
-import { deleteHotel } from "../features/hotel/hotelSlice";
+
+import { cancelBooking } from "../features/hotel/hotelSlice";
 import { StyledLink } from "../components/commonStyles/Link";
 
 const SellerCard = styled.div`
@@ -20,18 +19,13 @@ const SellerCard = styled.div`
 		padding: 10px 0;
 	}
 `;
-const AllHotelCard = ({ item }) => {
+const UserDashboardCard = ({ item }) => {
 	const dispatch = useDispatch();
 
-	const handleDelete = (e) => {
+	const handleReject = (e) => {
 		e.preventDefault();
-		dispatch(deleteHotel(item._id));
-		window.location.reload();
+		dispatch(cancelBooking(item._id));
 	};
-
-	useEffect(() => {
-		dispatch(getAllHotel());
-	}, [dispatch]);
 
 	return (
 		<div>
@@ -41,7 +35,7 @@ const AllHotelCard = ({ item }) => {
 						<div className="col-md-4">
 							<div className="imagesClass">
 								<img
-									src={`/hotel/image/${item._id}`}
+									src={`/hotel/image/${item.id._id}`}
 									alt=""
 									className="w-100"
 								/>
@@ -49,20 +43,18 @@ const AllHotelCard = ({ item }) => {
 						</div>
 						<div className="col-md-6 d-flex">
 							<div className="description">
-								<h3 className="title3">{item.hotelName}</h3>
-								<p className="para1">{item.location}</p>
-								<p className="para1">{item.description.substring(0, 100)}...</p>
-
-								<span>Rs - {item.price}</span>
+								<h3 className="title3">{item.id.hotelName}</h3>
+								<p className="para1">{item.id.location}</p>
+								<p className="para1">
+									{item.id.description.substring(0, 100)}...
+								</p>
+								<span>Rs - {item.id.price}</span>
 							</div>
 						</div>
 						<div className="col-md-2">
 							<div className="buttonClass">
-								<StyledLink themebtn="true" to={`/hotel/edit/${item._id}`}>
-									Edit
-								</StyledLink>
-								<StyledLink themebtn="true" onClick={handleDelete}>
-									Delete
+								<StyledLink themebtn="true" onClick={handleReject}>
+									Cancel
 								</StyledLink>
 							</div>
 						</div>
@@ -73,4 +65,4 @@ const AllHotelCard = ({ item }) => {
 	);
 };
 
-export default AllHotelCard;
+export default UserDashboardCard;

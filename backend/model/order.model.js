@@ -13,10 +13,16 @@ const orderSchema = mongoose.Schema(
 			ref: "User",
 		},
 		to: {
-			type: Date,
+			type: String,
 		},
 		from: {
-			type: Date,
+			type: String,
+		},
+		name: {
+			type: String,
+		},
+		hotelName: {
+			type: String,
 		},
 	},
 	{ timestamp: true }

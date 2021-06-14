@@ -12,6 +12,12 @@ module.exports = function (app) {
 			"/billing/create-payment-intent",
 			"/billing/create-checkout-session",
 			"/billing/orderSuccess",
+			"/hotel/user-bookings",
+			"/hotel/isBooked/:id",
+			"/hotel/cancelBooking/:id",
+			"/hotel/roomAvailable",
+			"/hotel/booking_update_to_seller",
+			"/hotel/search-listing",
 		],
 		createProxyMiddleware({
 			target: "http://localhost:4000",

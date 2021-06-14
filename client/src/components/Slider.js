@@ -1,10 +1,7 @@
 import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import hotelImg1 from "../images/hotelimage1.jpg";
-import hotelImg2 from "../images/hotelimage2.jpg";
-import hotelImg3 from "../images/hotelimage3.jpg";
-import hotelImg4 from "../images/hotelimage4.jpg";
+
 import styled from "styled-components";
 const responsive = {
 	desktop: {
