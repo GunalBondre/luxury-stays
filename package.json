@@ -6,6 +6,8 @@
   "scripts": {
     "server": "nodemon backend/server.js",
     "client": "npm start --prefix client",
+    "build": "npm run build --prefix client",
+
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "eject": "npm eject --prefix client"
   },

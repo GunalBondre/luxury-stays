@@ -48,7 +48,10 @@ const UserDashboardCard = ({ item }) => {
 								<p className="para1">
 									{item.id.description.substring(0, 100)}...
 								</p>
-								<span>Rs - {item.id.price}</span>
+								<p>from - {item.from}</p>
+								<p> to - {item.to}</p>
+
+								<span>Rs - {item.id.price}/day</span>
 							</div>
 						</div>
 						<div className="col-md-2">

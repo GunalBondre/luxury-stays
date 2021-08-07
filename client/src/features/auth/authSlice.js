@@ -91,6 +91,7 @@ export const login = (user) => async (dispatch) => {
 				Authorization: `Bearer ${user.token}`,
 			},
 		});
+		console.log(response);
 		if (response) {
 			localStorage.setItem("auth", JSON.stringify(response.data));
 			dispatch(loginSuccess(response.data));

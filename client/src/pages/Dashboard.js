@@ -6,7 +6,7 @@ import { isSameOrAfter } from "dayjs/plugin/isSameOrAfter";
 import { useSelector, useDispatch } from "react-redux";
 import {
 	hotelBySeller,
-	getAllHotel,
+	allHotelsAdmin,
 	booking_update_to_seller,
 } from "../features/hotel/hotelSlice";
 import SellerHotelCard from "../components/SellerHotelCard";
@@ -46,8 +46,16 @@ const HeaderDiv = styled.div`
 			rgba(9, 9, 121, 1) 8%,
 			rgba(0, 212, 255, 1) 100%
 		);
+
+		h2 {
+			text-align: center;
+			font-size: 30px;
+			color: #fff;
+			padding-top: 30px;
+		}
 	}
 `;
+
 const Dashboard = () => {
 	const { auth } = useSelector((state) => ({ ...state }));
 	const { hotelDetail } = useSelector((state) => ({ ...state }));
@@ -55,7 +63,7 @@ const Dashboard = () => {
 	const { allBooking } = useSelector((state) => ({ ...state }));
 	const { fetchBooking } = allBooking;
 	const { userBooking } = hotelDetail;
-	let now = dayjs(new Date()).format("DD-MM-YY");
+	let now = dayjs(new Date()).format("YYYY-MM-DD");
 
 	const dispatch = useDispatch();
 	useEffect(() => {
@@ -64,7 +72,7 @@ const Dashboard = () => {
 			dispatch(booking_update_to_seller(auth.user.token));
 		}
 		if (auth.user.roles === "admin") {
-			dispatch(getAllHotel(auth.user.token));
+			dispatch(allHotelsAdmin(auth.user.token));
 		}
 		if (auth.user.roles === "user") {
 			dispatch(userBookings(auth.user.token));
@@ -80,14 +88,14 @@ const Dashboard = () => {
 					<Tabs defaultActiveKey="seller">
 						<TabPane tab="Todays Bookings" key="today" className="tabs">
 							{Object.values(userBooking).map((item) => {
-								if (item.to === now) {
+								if (item.from === now) {
 									return <SellerCard key={item._id} item={item} />;
 								}
 							})}
 						</TabPane>
 						<TabPane tab="Upcoming Bookings" key="upcoming" className="tabs">
 							{Object.values(userBooking).map((item) => {
-								if (item.to > now) {
+								if (item.from > now) {
 									return <SellerCard key={item._id} item={item} />;
 								}
 							})}
@@ -164,7 +172,7 @@ const Dashboard = () => {
 					<Tabs defaultActiveKey="user">
 						<TabPane tab="Upcoming" key="upcoming" className="tabs">
 							{Object.values(fetchBooking).map((item) => {
-								if (item.to > now) {
+								if (item.from > now) {
 									return <UserDashboardCard key={item._id} item={item} />;
 								}
 							})}
@@ -187,7 +195,9 @@ const Dashboard = () => {
 	return (
 		<div>
 			<HeaderDiv>
-				<div className="banner"></div>
+				<div className="banner">
+					<h2>Dashboard</h2>
+				</div>
 			</HeaderDiv>
 			{console.log(auth.user.roles)}
 			{/* {auth.user.roles === "user" ? <UserDashboard /> : <SellerDashboard />} */}

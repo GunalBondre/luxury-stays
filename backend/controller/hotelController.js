@@ -31,19 +31,28 @@ const registerHotel = async (req, res) => {
 };
 
 const allHotels = async (req, res) => {
-	// let user = await User.findById(req.user._id);
-	// if (user.roles === "user") {
-	let hotels = await HotelModel.find({ verifiedStatus: "verified" })
-		.limit(24)
-		.select("-image.data")
-		.populate("postedBy", "_id name");
-	res.json(hotels);
-	// } else {
-	// 	let hotels = await HotelModel.find({});
-	// 	res.json(hotels);
-	// }
+	try {
+		let hotels = await HotelModel.find({ verifiedStatus: "verified" })
+			.limit(24)
+			.select("-image.data")
+			.populate("postedBy", "_id name");
+		res.json(hotels);
+	} catch (error) {
+		console.log("error");
+	}
 };
 
+const allHotelsAdmin = async (req, res) => {
+	try {
+		let hotels = await HotelModel.find()
+			.limit(24)
+			.select("-image.data")
+			.populate("postedBy", "_id name");
+		res.json(hotels);
+	} catch (error) {
+		console.log("error");
+	}
+};
 const image = async (req, res) => {
 	let hotel = await HotelModel.findById(req.params.id);
 
@@ -120,6 +129,7 @@ const userBookings = async (req, res) => {
 	let allBooking = await Order.find({ orderedBy: req.user._id })
 		.select("stripe_session")
 		.select("to")
+		.select("from")
 		.populate("id", "-image.data")
 		.populate("orderedBy", "_id name")
 		.exec();
@@ -176,7 +186,14 @@ const booking_update_to_seller = async (req, res) => {
 	}
 };
 const searchListing = async (req, res) => {
-	console.log("hello", req.body);
+	const { searchlocation, date, bed } = req.body;
+	console.log(`${searchlocation}`);
+	let result = await HotelModel.find({
+		location: searchlocation.trim(),
+	}).select("-image.data");
+
+	console.log(result);
+	res.json(result);
 };
 
 module.exports = {
@@ -194,4 +211,5 @@ module.exports = {
 	deleteHotel,
 	allHotelOfSingleSeller,
 	adminOperations,
+	allHotelsAdmin,
 };

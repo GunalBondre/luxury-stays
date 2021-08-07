@@ -66,7 +66,7 @@ const Login = () => {
 									<div className="form-links my-4">
 										<a href="">Forgot Password?</a>
 									</div>
-									<h4 className="horizontal-line text-center title4">
+									{/* <h4 className="horizontal-line text-center title4">
 										<span>or</span>
 									</h4>
 									<div className="social-media-signup my-3">
@@ -79,7 +79,7 @@ const Login = () => {
 										<Link className="social-icon">
 											<i className="fab fa-linkedin-in"></i>
 										</Link>
-									</div>
+									</div> */}
 								</div>
 							</div>
 							<div className="col-lg-7">

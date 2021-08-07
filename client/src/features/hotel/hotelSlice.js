@@ -18,6 +18,7 @@ const hotelSlice = createSlice({
 		singleHotel: singleHotelData,
 		isBooked: {},
 		userBooking: {},
+		searchResult: {},
 	},
 
 	// reducers
@@ -56,6 +57,9 @@ const hotelSlice = createSlice({
 		userBookingsuccess: (state, action) => {
 			state.userBooking = action.payload;
 		},
+		searchResultSuccess: (state, action) => {
+			state.searchResult = action.payload;
+		},
 	},
 });
 
@@ -70,6 +74,7 @@ export const {
 	bookedStatus,
 	deleteHotelSuccess,
 	userBookingsuccess,
+	searchResultSuccess,
 } = hotelSlice.actions;
 
 export default hotelSlice.reducer;
@@ -100,14 +105,30 @@ export const register = (data, token) => async (dispatch) => {
 	}
 };
 
-export const getAllHotel = (token, roles) => async (dispatch) => {
+export const getAllHotel = (roles) => async (dispatch) => {
 	try {
-		let res = await axios.get("/hotel", {
+		let res = await axios.get("/hotel");
+		console.log(res);
+		if (res) {
+			dispatch(getAllHotelSuccess(res.data));
+			if (roles === "admin" || roles === "seller") {
+				history.push("/dashboard");
+			}
+		}
+	} catch (error) {
+		console.log("error");
+		dispatch(getAllHotelFailure());
+		if (error) toast.error("something went wrong");
+	}
+};
+
+export const allHotelsAdmin = (token, roles) => async (dispatch) => {
+	try {
+		let res = await axios.get("/hotel/allHotelsAdmin", {
 			// headers: {
 			// 	Authorization: `Bearer ${token}`,
 			// },
 		});
-		console.log(res);
 		if (res) {
 			dispatch(getAllHotelSuccess(res.data));
 			if (roles === "admin" || roles === "seller") {
@@ -248,6 +269,12 @@ export const booking_update_to_seller = (token) => async (dispatch) => {
 };
 
 export const searchListing = (query) => async (dispatch) => {
-	console.log("slice");
-	await axios.post(`/hotel/search-listing`, query);
+	try {
+		let res = await axios.post(`/hotel/search-listing`, query);
+		if (res) {
+			dispatch(searchResultSuccess(res.data));
+		}
+	} catch (error) {
+		console.log("error");
+	}
 };

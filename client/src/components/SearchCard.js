@@ -11,7 +11,7 @@ const CardComponent = styled.div`
 		width: 100%;
 	}
 `;
-const HotelCard = ({ item }) => {
+const SearchCard = ({ item }) => {
 	const { auth } = useSelector((state) => ({ ...state }));
 	const dispatch = useDispatch();
 	const handleClick = (e) => {
@@ -43,5 +43,5 @@ const HotelCard = ({ item }) => {
 		</div>
 	);
 };
-// history.push(`/hotel/${item._id}`
-export default HotelCard;
+
+export default SearchCard;

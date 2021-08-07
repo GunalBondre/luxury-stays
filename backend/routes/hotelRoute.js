@@ -14,6 +14,8 @@ router
 	.post(formidable(), requireSignin, hotelController.registerHotel);
 
 router.route("/").get(hotelController.allHotels);
+router.route("/allHotelsAdmin").get(hotelController.allHotelsAdmin);
+
 router.route("/image/:id").get(hotelController.image);
 router.get("/user-bookings", requireSignin, hotelController.userBookings);
 router.route("/isBooked/:id").get(requireSignin, hotelController.isBooked);
@@ -22,9 +24,7 @@ router.get(
 	requireSignin,
 	hotelController.booking_update_to_seller
 );
-router
-	.route("/search-listing")
-	.post(requireSignin, hotelController.searchListing);
+router.route("/search-listing").post(hotelController.searchListing);
 
 router
 	.route("/roomAvailable")

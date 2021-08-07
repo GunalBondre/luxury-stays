@@ -164,9 +164,14 @@ const Home = () => {
 	// const [startDate, setStartDate] = useState(new Date());
 	// const [hotels, setHotels] = useState();
 	const { auth } = useSelector((state) => ({ ...state }));
+
 	const dispatch = useDispatch();
 	useEffect(() => {
-		dispatch(getAllHotel());
+		if (auth && auth.user) {
+			dispatch(getAllHotel(auth.user.roles));
+		} else {
+			dispatch(getAllHotel());
+		}
 	}, []);
 
 	const { hotelDetail } = useSelector((state) => ({ ...state }));
@@ -198,7 +203,7 @@ const Home = () => {
 			<ListingGrid>
 				<div className="container">
 					<div className="row">
-						<div className="col-lg-9 col-md-12">
+						<div className="col-lg-12 col-md-12">
 							<div className="searchContainer">
 								<form action="">
 									<div className="row">
@@ -232,7 +237,7 @@ const Home = () => {
 								})}
 							</div>
 						</div>
-						<div className="col-lg-3 col-md-12">
+						{/* <div className="col-lg-3 col-md-12">
 							<div className="rightSide">
 								<h2 className="title2 mb-4">Filters</h2>
 								<RangeSlider />
@@ -240,7 +245,7 @@ const Home = () => {
 								<CheckFilters />
 								<hr />
 							</div>
-						</div>
+						</div> */}
 					</div>
 				</div>
 			</ListingGrid>

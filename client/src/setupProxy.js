@@ -18,6 +18,7 @@ module.exports = function (app) {
 			"/hotel/roomAvailable",
 			"/hotel/booking_update_to_seller",
 			"/hotel/search-listing",
+			"hotel/allHotelsAdmin",
 		],
 		createProxyMiddleware({
 			target: "http://localhost:4000",

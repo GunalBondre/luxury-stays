@@ -13,11 +13,14 @@ const SearchBar = () => {
 	const handleChange = () => {};
 	const [date, setDate] = useState("");
 	const [bed, setBed] = useState("");
-	const [location, setLocation] = useState("");
+	const [searchlocation, setLocation] = useState("");
 	const handleSubmit = () => {
-		history.push(`/search?location=${location} & date=${date}&bed=${bed}`);
+		history.push(
+			`/search?searchlocation=${searchlocation}&date=${date}&bed=${bed}`
+		);
 	};
 	const { RangePicker } = DatePicker;
+	console.log(date);
 	return (
 		<div>
 			<form action="" onSubmit={handleSubmit}>
@@ -25,7 +28,7 @@ const SearchBar = () => {
 					{/* <label htmlFor="">Location</label> */}
 					<i className="fa fa-map-marker"></i>
 					<Select
-						name="location"
+						name="searchlocation"
 						onChange={handleChange}
 						id="location"
 						className="form-control"
