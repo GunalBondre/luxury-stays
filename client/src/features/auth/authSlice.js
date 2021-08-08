@@ -109,3 +109,37 @@ export const login = (user) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
 	dispatch(logout());
 };
+
+export const resetPassword = (email) => async (dispatch) => {
+	const userData = { email: email };
+	try {
+		const response = await axios.post("/auth/requestResetPass", userData);
+		if (response) {
+			toast.success("please check email");
+		}
+	} catch (error) {
+		if (error.response.status === 400) toast.error(error.response.data);
+	}
+};
+
+export const updatePassword =
+	(password, confirmPassword, token, id) => async (dispatch) => {
+		const userData = {
+			password,
+			confirmPassword,
+			token,
+			id,
+		};
+
+		try {
+			let result = await axios.post("/auth/resetPass", userData);
+			if (result) {
+				toast.success("password updated successfully");
+				history.push("/login");
+			} else {
+				toast.error("something went wrong");
+			}
+		} catch (error) {
+			if (error.response.status === 400) toast.error(error.response.data);
+		}
+	};

@@ -64,7 +64,7 @@ const Login = () => {
 									</div>
 									<Button>Sign In</Button>
 									<div className="form-links my-4">
-										<a href="">Forgot Password?</a>
+										<Link to="/requestResetPassword">Forgot Password?</Link>
 									</div>
 									{/* <h4 className="horizontal-line text-center title4">
 										<span>or</span>

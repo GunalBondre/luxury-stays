@@ -27,7 +27,6 @@ const Search = () => {
 			<div className="container">
 				<div className="row">
 					{Object.values(searchResult).map((item) => {
-						console.log("item", item.hotelName);
 						return <SearchCard key={item._id} item={item} />;
 					})}
 				</div>

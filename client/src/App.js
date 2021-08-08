@@ -21,6 +21,8 @@ import SellerDashboard from "./pages/SellerDashboard";
 import EditHotel from "./components/EditHotel";
 import Success from "./components/Success";
 import Search from "./pages/Search";
+import RequestResetPassword from "./pages/RequestResetPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
 	return (
@@ -63,6 +65,14 @@ function App() {
 							component={Success}
 						></PrivateRoute>
 						<PrivateRoute path="/search" component={Search}></PrivateRoute>
+						<PublicRoute
+							path="/requestResetPassword"
+							component={RequestResetPassword}
+						></PublicRoute>
+						<PublicRoute
+							path="/resetPassword"
+							component={ResetPassword}
+						></PublicRoute>
 					</Switch>
 				</Router>
 				<Footer />

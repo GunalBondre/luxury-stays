@@ -4,6 +4,8 @@ module.exports = function (app) {
 		[
 			"/auth/login",
 			"/auth/register",
+			"/auth/resetPass",
+			"/auth/requestResetPass",
 			"/hotel/register",
 			"/hotel",
 			"/hotel/image/:id",
