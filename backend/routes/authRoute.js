@@ -8,6 +8,7 @@ const authController = require("../controller/authController");
 router.route("/login").get(authController.login).post(authController.login);
 router.route("/resetPass").post(authController.resetPass);
 router.route("/requestResetPass").post(authController.requestResetPass);
+router.route("/emailVerification").post(authController.emailVerification);
 
 router
 	.route("/register")

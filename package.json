@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "hotel booking app",
   "main": "index.js",
+  "engines": {
+    "node": "16.5.0",
+    "npm" : "7.19.1"
+  },
   "scripts": {
     "server": "nodemon backend/server.js",
     "client": "npm start --prefix client",

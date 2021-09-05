@@ -6,6 +6,7 @@ module.exports = function (app) {
 			"/auth/register",
 			"/auth/resetPass",
 			"/auth/requestResetPass",
+			"/auth/emailVerification",
 			"/hotel/register",
 			"/hotel",
 			"/hotel/image/:id",

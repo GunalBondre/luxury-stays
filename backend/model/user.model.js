@@ -5,7 +5,7 @@ mongoose.set("debug", true);
 const userSchema = mongoose.Schema(
 	{
 		name: { type: String },
-		email: { type: String },
+
 		password: { type: String },
 		googleId: { type: String },
 		phone: { type: String },
@@ -13,6 +13,13 @@ const userSchema = mongoose.Schema(
 			type: String,
 			enum: ["user", "admin", "seller"],
 			default: "user",
+		},
+		email: {
+			type: String,
+		},
+		isVerified: {
+			type: Boolean,
+			default: false,
 		},
 		stripe_session: {},
 	},

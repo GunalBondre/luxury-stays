@@ -143,3 +143,15 @@ export const updatePassword =
 			if (error.response.status === 400) toast.error(error.response.data);
 		}
 	};
+
+export const emailVerification = (token, id) => async (duspatch) => {
+	try {
+		const userData = { token, id };
+		let result = await axios.post("/auth/emailVerification", userData);
+		if (result) {
+			history.push("/login");
+		} else {
+			toast.error("invalid or expired link");
+		}
+	} catch (error) {}
+};

@@ -85,6 +85,11 @@ const HotelDetail = () => {
 		// Can not select days before today and today
 		return current && current <= dayjs().subtract(1, "day");
 	}
+	let finalPrice = singleHotel.price * dayDiff;
+	const discountChecked = (e) => {
+		e.preventDefault();
+		e.target.checked ? calculate() : finalPrice;
+	};
 
 	return (
 		<div>
@@ -185,15 +190,18 @@ const HotelDetail = () => {
 										<span className="amount text-padding mx-2">
 											10% Off coupon by Travelly
 										</span>{" "}
-										<input type="checkbox" name="coupon" id="" />
+										<input
+											type="checkbox"
+											name="coupon"
+											id=""
+											onClick={discountChecked}
+										/>
 									</div>
 
 									<div className="total text-padding d-flex justify-content-between">
 										<p className="para1">Total Price</p>
 										{to && from ? (
-											<h4 className="title4">
-												Rs - {singleHotel.price * dayDiff}
-											</h4>
+											<h4 className="title4">Rs - {finalPrice}</h4>
 										) : (
 											<h4 className="title4">Rs - {singleHotel.price}</h4>
 										)}

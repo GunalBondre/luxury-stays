@@ -23,6 +23,7 @@ import Success from "./components/Success";
 import Search from "./pages/Search";
 import RequestResetPassword from "./pages/RequestResetPassword";
 import ResetPassword from "./pages/ResetPassword";
+import EmailVerification from "./pages/EmailVerification";
 
 function App() {
 	return (
@@ -72,6 +73,10 @@ function App() {
 						<PublicRoute
 							path="/resetPassword"
 							component={ResetPassword}
+						></PublicRoute>
+						<PublicRoute
+							path="/emailVerification"
+							component={EmailVerification}
 						></PublicRoute>
 					</Switch>
 				</Router>
