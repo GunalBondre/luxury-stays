@@ -85,11 +85,11 @@ const HotelDetail = () => {
 		// Can not select days before today and today
 		return current && current <= dayjs().subtract(1, "day");
 	}
-	let finalPrice = singleHotel.price * dayDiff;
-	const discountChecked = (e) => {
-		e.preventDefault();
-		e.target.checked ? calculate() : finalPrice;
-	};
+	// let finalPrice = singleHotel.price * dayDiff;
+	// const discountChecked = (e) => {
+	// 	e.preventDefault();
+	// 	e.target.checked ? calculate() : finalPrice;
+	// };
 
 	return (
 		<div>
