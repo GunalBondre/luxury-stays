@@ -12,7 +12,8 @@
     "client": "npm start --prefix client",
     "build": "npm run build --prefix client",
     "start": "concurrently \"npm run server\" \"npm run client\"",
-    "eject": "npm eject --prefix client"
+    "eject": "npm eject --prefix client",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "repository": {
     "type": "git",
